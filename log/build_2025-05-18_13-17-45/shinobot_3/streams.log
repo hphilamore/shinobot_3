@@ -1,0 +1,32 @@
+[1.804s] Invoking command in '/home/shinobot/shinobot_3_ws/src/shinobot_3': PYTHONPATH=/home/shinobot/shinobot_3_ws/build/shinobot_3/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/shinobot/shinobot_3_ws/install/shinobot_3/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/shinobot_3 build --build-base /home/shinobot/shinobot_3_ws/build/shinobot_3/build install --record /home/shinobot/shinobot_3_ws/build/shinobot_3/install.log --single-version-externally-managed install_data
+[2.154s] running egg_info
+[2.179s] writing ../../build/shinobot_3/shinobot_3.egg-info/PKG-INFO
+[2.179s] writing dependency_links to ../../build/shinobot_3/shinobot_3.egg-info/dependency_links.txt
+[2.182s] writing entry points to ../../build/shinobot_3/shinobot_3.egg-info/entry_points.txt
+[2.183s] writing requirements to ../../build/shinobot_3/shinobot_3.egg-info/requires.txt
+[2.184s] writing top-level names to ../../build/shinobot_3/shinobot_3.egg-info/top_level.txt
+[2.237s] reading manifest file '../../build/shinobot_3/shinobot_3.egg-info/SOURCES.txt'
+[2.237s] adding license file 'LICENSE'
+[2.238s] writing manifest file '../../build/shinobot_3/shinobot_3.egg-info/SOURCES.txt'
+[2.238s] running build
+[2.238s] running build_py
+[2.238s] copying shinobot_3/shinobot_1_driver_node_.py -> /home/shinobot/shinobot_3_ws/build/shinobot_3/build/lib/shinobot_3
+[2.239s] copying shinobot_3/shinobot_2_driver_node__.py -> /home/shinobot/shinobot_3_ws/build/shinobot_3/build/lib/shinobot_3
+[2.239s] copying shinobot_3/driver_node.py -> /home/shinobot/shinobot_3_ws/build/shinobot_3/build/lib/shinobot_3
+[2.239s] running install
+[2.248s] running install_lib
+[2.274s] copying /home/shinobot/shinobot_3_ws/build/shinobot_3/build/lib/shinobot_3/shinobot_1_driver_node_.py -> /home/shinobot/shinobot_3_ws/install/shinobot_3/lib/python3.12/site-packages/shinobot_3
+[2.274s] copying /home/shinobot/shinobot_3_ws/build/shinobot_3/build/lib/shinobot_3/shinobot_2_driver_node__.py -> /home/shinobot/shinobot_3_ws/install/shinobot_3/lib/python3.12/site-packages/shinobot_3
+[2.274s] copying /home/shinobot/shinobot_3_ws/build/shinobot_3/build/lib/shinobot_3/driver_node.py -> /home/shinobot/shinobot_3_ws/install/shinobot_3/lib/python3.12/site-packages/shinobot_3
+[2.275s] byte-compiling /home/shinobot/shinobot_3_ws/install/shinobot_3/lib/python3.12/site-packages/shinobot_3/shinobot_1_driver_node_.py to shinobot_1_driver_node_.cpython-312.pyc
+[2.277s] byte-compiling /home/shinobot/shinobot_3_ws/install/shinobot_3/lib/python3.12/site-packages/shinobot_3/shinobot_2_driver_node__.py to shinobot_2_driver_node__.cpython-312.pyc
+[2.279s] byte-compiling /home/shinobot/shinobot_3_ws/install/shinobot_3/lib/python3.12/site-packages/shinobot_3/driver_node.py to driver_node.cpython-312.pyc
+[2.280s] running install_data
+[2.280s] running install_egg_info
+[2.307s] removing '/home/shinobot/shinobot_3_ws/install/shinobot_3/lib/python3.12/site-packages/shinobot_3-0.0.0-py3.12.egg-info' (and everything under it)
+[2.308s] Copying ../../build/shinobot_3/shinobot_3.egg-info to /home/shinobot/shinobot_3_ws/install/shinobot_3/lib/python3.12/site-packages/shinobot_3-0.0.0-py3.12.egg-info
+[2.309s] running install_scripts
+[2.485s] Installing driver_node script to /home/shinobot/shinobot_3_ws/install/shinobot_3/lib/shinobot_3
+[2.485s] Installing simple_node script to /home/shinobot/shinobot_3_ws/install/shinobot_3/lib/shinobot_3
+[2.485s] writing list of installed files to '/home/shinobot/shinobot_3_ws/build/shinobot_3/install.log'
+[2.564s] Invoked command in '/home/shinobot/shinobot_3_ws/src/shinobot_3' returned '0': PYTHONPATH=/home/shinobot/shinobot_3_ws/build/shinobot_3/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/shinobot/shinobot_3_ws/install/shinobot_3/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/shinobot_3 build --build-base /home/shinobot/shinobot_3_ws/build/shinobot_3/build install --record /home/shinobot/shinobot_3_ws/build/shinobot_3/install.log --single-version-externally-managed install_data

@@ -1,0 +1,30 @@
+running egg_info
+writing ../../build/shinobot_3/shinobot_3.egg-info/PKG-INFO
+writing dependency_links to ../../build/shinobot_3/shinobot_3.egg-info/dependency_links.txt
+writing entry points to ../../build/shinobot_3/shinobot_3.egg-info/entry_points.txt
+writing requirements to ../../build/shinobot_3/shinobot_3.egg-info/requires.txt
+writing top-level names to ../../build/shinobot_3/shinobot_3.egg-info/top_level.txt
+reading manifest file '../../build/shinobot_3/shinobot_3.egg-info/SOURCES.txt'
+adding license file 'LICENSE'
+writing manifest file '../../build/shinobot_3/shinobot_3.egg-info/SOURCES.txt'
+running build
+running build_py
+copying shinobot_3/shinobot_1_driver_node_.py -> /home/shinobot/shinobot_3_ws/build/shinobot_3/build/lib/shinobot_3
+copying shinobot_3/shinobot_2_driver_node__.py -> /home/shinobot/shinobot_3_ws/build/shinobot_3/build/lib/shinobot_3
+copying shinobot_3/driver_node.py -> /home/shinobot/shinobot_3_ws/build/shinobot_3/build/lib/shinobot_3
+running install
+running install_lib
+copying /home/shinobot/shinobot_3_ws/build/shinobot_3/build/lib/shinobot_3/shinobot_1_driver_node_.py -> /home/shinobot/shinobot_3_ws/install/shinobot_3/lib/python3.12/site-packages/shinobot_3
+copying /home/shinobot/shinobot_3_ws/build/shinobot_3/build/lib/shinobot_3/shinobot_2_driver_node__.py -> /home/shinobot/shinobot_3_ws/install/shinobot_3/lib/python3.12/site-packages/shinobot_3
+copying /home/shinobot/shinobot_3_ws/build/shinobot_3/build/lib/shinobot_3/driver_node.py -> /home/shinobot/shinobot_3_ws/install/shinobot_3/lib/python3.12/site-packages/shinobot_3
+byte-compiling /home/shinobot/shinobot_3_ws/install/shinobot_3/lib/python3.12/site-packages/shinobot_3/shinobot_1_driver_node_.py to shinobot_1_driver_node_.cpython-312.pyc
+byte-compiling /home/shinobot/shinobot_3_ws/install/shinobot_3/lib/python3.12/site-packages/shinobot_3/shinobot_2_driver_node__.py to shinobot_2_driver_node__.cpython-312.pyc
+byte-compiling /home/shinobot/shinobot_3_ws/install/shinobot_3/lib/python3.12/site-packages/shinobot_3/driver_node.py to driver_node.cpython-312.pyc
+running install_data
+running install_egg_info
+removing '/home/shinobot/shinobot_3_ws/install/shinobot_3/lib/python3.12/site-packages/shinobot_3-0.0.0-py3.12.egg-info' (and everything under it)
+Copying ../../build/shinobot_3/shinobot_3.egg-info to /home/shinobot/shinobot_3_ws/install/shinobot_3/lib/python3.12/site-packages/shinobot_3-0.0.0-py3.12.egg-info
+running install_scripts
+Installing driver_node script to /home/shinobot/shinobot_3_ws/install/shinobot_3/lib/shinobot_3
+Installing simple_node script to /home/shinobot/shinobot_3_ws/install/shinobot_3/lib/shinobot_3
+writing list of installed files to '/home/shinobot/shinobot_3_ws/build/shinobot_3/install.log'

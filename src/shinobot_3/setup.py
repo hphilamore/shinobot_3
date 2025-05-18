@@ -21,7 +21,7 @@ setup(
     entry_points={
         'console_scripts': [
            'simple_node = shinobot_3.simple_node:main',
-           'driver_node = shinobot_robot.driver_node:main',
+           'driver_node = shinobot_3.driver_node:main',
         ],
     },
 )
