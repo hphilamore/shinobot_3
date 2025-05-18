@@ -1,6 +1,6 @@
 from setuptools import find_packages, setup
 
-package_name = 'shinobot_robot'
+package_name = 'shinobot_3'
 
 setup(
     name=package_name,
@@ -14,12 +14,13 @@ setup(
     install_requires=['setuptools'],
     zip_safe=True,
     maintainer='shinobot',
-    maintainer_email='shinobot@todo.todo',
+    maintainer_email='hemmaphilamore@gmail.com',
     description='TODO: Package description',
     license='Apache-2.0',
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
+           'simple_node = shinobot_3.simple_node:main',
         ],
     },
 )
