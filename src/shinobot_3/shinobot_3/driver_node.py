@@ -4,17 +4,15 @@ import rclpy
 from rclpy.node import Node
 from std_msgs.msg import String
 
-import RPi.GPIO as GPIO
+import lgpio
 
 class MotorDriver(Node):
     def __init__(self):
         super().__init__('driver')
 
-        # Set GPIO modes
-        GPIO.setmode(GPIO.BCM)
-        GPIO.setwarnings(False)
+        self.handle = lgpio.gpiochip_open(0)  # Open default GPIO chip
 
-        # Define motor pins
+        # Motor pin definitions (BCM)
         self.pinMotorAForwards = 6
         self.pinMotorABackwards = 13
         self.pinMotorBForwards = 20
@@ -23,26 +21,24 @@ class MotorDriver(Node):
         self.EnableB = 26
 
         self.Frequency = 20
-        self.DutyCycle = 30
-        self.Stop = 0
+        self.DutyCycle = 30.0  # Percentage
+        self.Stop = 0.0
 
-        # Setup pins
-        GPIO.setup(self.pinMotorAForwards, GPIO.OUT)
-        GPIO.setup(self.pinMotorABackwards, GPIO.OUT)
-        GPIO.setup(self.pinMotorBForwards, GPIO.OUT)
-        GPIO.setup(self.pinMotorBBackwards, GPIO.OUT)
+        self.motor_pins = [
+            self.pinMotorAForwards,
+            self.pinMotorABackwards,
+            self.pinMotorBForwards,
+            self.pinMotorBBackwards
+        ]
 
-        self.pwmMotorAForwards = GPIO.PWM(self.pinMotorAForwards, self.Frequency)
-        self.pwmMotorABackwards = GPIO.PWM(self.pinMotorABackwards, self.Frequency)
-        self.pwmMotorBForwards = GPIO.PWM(self.pinMotorBForwards, self.Frequency)
-        self.pwmMotorBBackwards = GPIO.PWM(self.pinMotorBBackwards, self.Frequency)
+        # Set all pins as outputs
+        for pin in self.motor_pins + [self.EnableA, self.EnableB]:
+            lgpio.set_mode(self.handle, pin, lgpio.OUTPUT)
 
-        self.pwmMotorAForwards.start(self.Stop)
-        self.pwmMotorABackwards.start(self.Stop)
-        self.pwmMotorBForwards.start(self.Stop)
-        self.pwmMotorBBackwards.start(self.Stop)
+        # Start with all motors stopped
+        self.stop_motors()
 
-        # Subscribe to 'command' topic
+        # ROS2 subscription
         self.subscription = self.create_subscription(
             String,
             'command',
@@ -50,47 +46,47 @@ class MotorDriver(Node):
             10
         )
 
-    def enable(self, state):
-        """ 
-        When state is 0, enable pin is driven high, PWM output
-        """
-        GPIO.output(self.EnableA, state)
-        GPIO.output(self.EnableB, state)
+    def enable(self, state=1):
+        lgpio.write(self.handle, self.EnableA, state)
+        lgpio.write(self.handle, self.EnableB, state)
+
+    def pwm(self, pin, duty_cycle):
+        if duty_cycle > 0:
+            lgpio.tx_pwm(self.handle, pin, self.Frequency, duty_cycle)
+        else:
+            lgpio.tx_pwm(self.handle, pin, self.Frequency, 0)
 
     def stop_motors(self):
-        self.pwmMotorAForwards.ChangeDutyCycle(self.Stop)
-        self.pwmMotorABackwards.ChangeDutyCycle(self.Stop)
-        self.pwmMotorBForwards.ChangeDutyCycle(self.Stop)
-        self.pwmMotorBBackwards.ChangeDutyCycle(self.Stop)
+        for pin in self.motor_pins:
+            self.pwm(pin, self.Stop)
 
     def forwards(self):
-        self.pwmMotorAForwards.ChangeDutyCycle(self.DutyCycle)
-        self.pwmMotorABackwards.ChangeDutyCycle(self.Stop)
-        self.pwmMotorBForwards.ChangeDutyCycle(self.DutyCycle)
-        self.pwmMotorBBackwards.ChangeDutyCycle(self.Stop)
+        self.pwm(self.pinMotorAForwards, self.DutyCycle)
+        self.pwm(self.pinMotorABackwards, self.Stop)
+        self.pwm(self.pinMotorBForwards, self.DutyCycle)
+        self.pwm(self.pinMotorBBackwards, self.Stop)
 
     def backwards(self):
-        self.pwmMotorAForwards.ChangeDutyCycle(self.Stop)
-        self.pwmMotorABackwards.ChangeDutyCycle(self.DutyCycle)
-        self.pwmMotorBForwards.ChangeDutyCycle(self.Stop)
-        self.pwmMotorBBackwards.ChangeDutyCycle(self.DutyCycle)
+        self.pwm(self.pinMotorAForwards, self.Stop)
+        self.pwm(self.pinMotorABackwards, self.DutyCycle)
+        self.pwm(self.pinMotorBForwards, self.Stop)
+        self.pwm(self.pinMotorBBackwards, self.DutyCycle)
 
     def left(self):
-        self.pwmMotorAForwards.ChangeDutyCycle(self.Stop)
-        self.pwmMotorABackwards.ChangeDutyCycle(self.DutyCycle)
-        self.pwmMotorBForwards.ChangeDutyCycle(self.DutyCycle)
-        self.pwmMotorBBackwards.ChangeDutyCycle(self.Stop)
+        self.pwm(self.pinMotorAForwards, self.Stop)
+        self.pwm(self.pinMotorABackwards, self.DutyCycle)
+        self.pwm(self.pinMotorBForwards, self.DutyCycle)
+        self.pwm(self.pinMotorBBackwards, self.Stop)
 
     def right(self):
-        self.pwmMotorAForwards.ChangeDutyCycle(self.DutyCycle)
-        self.pwmMotorABackwards.ChangeDutyCycle(self.Stop)
-        self.pwmMotorBForwards.ChangeDutyCycle(self.Stop)
-        self.pwmMotorBBackwards.ChangeDutyCycle(self.DutyCycle)
+        self.pwm(self.pinMotorAForwards, self.DutyCycle)
+        self.pwm(self.pinMotorABackwards, self.Stop)
+        self.pwm(self.pinMotorBForwards, self.Stop)
+        self.pwm(self.pinMotorBBackwards, self.DutyCycle)
 
     def command_callback(self, msg):
         command = msg.data.lower()
         self.get_logger().info(f'Received command: {command}')
-
         self.enable()
 
         if command == 'forwards':
@@ -109,7 +105,7 @@ class MotorDriver(Node):
 
     def destroy(self):
         self.stop_motors()
-        GPIO.cleanup()
+        lgpio.gpiochip_close(self.handle)
         super().destroy_node()
 
 def main(args=None):
