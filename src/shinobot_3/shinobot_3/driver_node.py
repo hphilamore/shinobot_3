@@ -10,7 +10,7 @@ class MotorDriver(Node):
     def __init__(self):
         super().__init__('driver')
 
-        self.handle = lgpio.gpiochip_open(0)  # Open default GPIO chip
+        self.gpio_handle = lgpio.gpiochip_open(0)  # Open default GPIO chip
 
         # Motor pin definitions (BCM)
         self.pinMotorAForwards = 6
@@ -33,7 +33,7 @@ class MotorDriver(Node):
 
         # Set all pins as outputs
         for pin in self.motor_pins + [self.EnableA, self.EnableB]:
-            lgpio.set_mode(self.handle, pin, lgpio.OUTPUT)
+            lgpio.set_mode(self.gpio_handle, pin, lgpio.OUTPUT)
 
         # Start with all motors stopped
         self.stop_motors()
@@ -47,14 +47,14 @@ class MotorDriver(Node):
         )
 
     def enable(self, state=1):
-        lgpio.write(self.handle, self.EnableA, state)
-        lgpio.write(self.handle, self.EnableB, state)
+        lgpio.write(self.gpio_handle, self.EnableA, state)
+        lgpio.write(self.gpio_handle, self.EnableB, state)
 
     def pwm(self, pin, duty_cycle):
         if duty_cycle > 0:
-            lgpio.tx_pwm(self.handle, pin, self.Frequency, duty_cycle)
+            lgpio.tx_pwm(self.gpio_handle, pin, self.Frequency, duty_cycle)
         else:
-            lgpio.tx_pwm(self.handle, pin, self.Frequency, 0)
+            lgpio.tx_pwm(self.gpio_handle, pin, self.Frequency, 0)
 
     def stop_motors(self):
         for pin in self.motor_pins:
@@ -105,7 +105,7 @@ class MotorDriver(Node):
 
     def destroy(self):
         self.stop_motors()
-        lgpio.gpiochip_close(self.handle)
+        lgpio.gpiochip_close(self.gpio_handle)
         super().destroy_node()
 
 def main(args=None):
