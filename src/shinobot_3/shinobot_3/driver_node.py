@@ -33,23 +33,24 @@ class MotorDriver(Node):
 
         # Set all pins as outputs
         for pin in self.motor_pins + [self.EnableA, self.EnableB]:
-        #     lgpio.set_mode(self.gpio_handle, pin, lgpio.OUTPUT)
+            # lgpio.set_mode(self.gpio_handle, pin, lgpio.OUTPUT)
             # lgpio.gpio_claim_output(self.gpio_handle, 
             #     self.motor_pins + [self.EnableA, self.EnableB])
 
-        # Claim the pin for output with initial low value
-            lgpio.gpio_claim_output(self.gpio_handle, 0, pin, 0)
+            # Claim the pin for output with initial low value
+            # lgpio.gpio_claim_output(self.gpio_handle, 0, pin, 0)
+            lgpio.gpio_claim_output(self.gpio_handle, pin)
 
         # Start with all motors stopped
-        self.stop_motors()
+        # self.stop_motors()
 
-        # ROS2 subscription
-        self.subscription = self.create_subscription(
-            String,
-            'command',
-            self.command_callback,
-            10
-        )
+        # # ROS2 subscription
+        # self.subscription = self.create_subscription(
+        #     String,
+        #     'command',
+        #     self.command_callback,
+        #     10
+        # )
 
     def enable(self, state=1):
         lgpio.gpio_write(self.gpio_handle, self.EnableA, state)
@@ -68,48 +69,48 @@ class MotorDriver(Node):
         for pin in self.motor_pins:
             self.pwm(pin, self.Stop)
 
-    def forwards(self):
-        self.pwm(self.pinMotorAForwards, self.DutyCycle)
-        self.pwm(self.pinMotorABackwards, self.Stop)
-        self.pwm(self.pinMotorBForwards, self.DutyCycle)
-        self.pwm(self.pinMotorBBackwards, self.Stop)
+    # def forwards(self):
+    #     self.pwm(self.pinMotorAForwards, self.DutyCycle)
+    #     self.pwm(self.pinMotorABackwards, self.Stop)
+    #     self.pwm(self.pinMotorBForwards, self.DutyCycle)
+    #     self.pwm(self.pinMotorBBackwards, self.Stop)
 
-    def backwards(self):
-        self.pwm(self.pinMotorAForwards, self.Stop)
-        self.pwm(self.pinMotorABackwards, self.DutyCycle)
-        self.pwm(self.pinMotorBForwards, self.Stop)
-        self.pwm(self.pinMotorBBackwards, self.DutyCycle)
+    # def backwards(self):
+    #     self.pwm(self.pinMotorAForwards, self.Stop)
+    #     self.pwm(self.pinMotorABackwards, self.DutyCycle)
+    #     self.pwm(self.pinMotorBForwards, self.Stop)
+    #     self.pwm(self.pinMotorBBackwards, self.DutyCycle)
 
-    def left(self):
-        self.pwm(self.pinMotorAForwards, self.Stop)
-        self.pwm(self.pinMotorABackwards, self.DutyCycle)
-        self.pwm(self.pinMotorBForwards, self.DutyCycle)
-        self.pwm(self.pinMotorBBackwards, self.Stop)
+    # def left(self):
+    #     self.pwm(self.pinMotorAForwards, self.Stop)
+    #     self.pwm(self.pinMotorABackwards, self.DutyCycle)
+    #     self.pwm(self.pinMotorBForwards, self.DutyCycle)
+    #     self.pwm(self.pinMotorBBackwards, self.Stop)
 
-    def right(self):
-        self.pwm(self.pinMotorAForwards, self.DutyCycle)
-        self.pwm(self.pinMotorABackwards, self.Stop)
-        self.pwm(self.pinMotorBForwards, self.Stop)
-        self.pwm(self.pinMotorBBackwards, self.DutyCycle)
+    # def right(self):
+    #     self.pwm(self.pinMotorAForwards, self.DutyCycle)
+    #     self.pwm(self.pinMotorABackwards, self.Stop)
+    #     self.pwm(self.pinMotorBForwards, self.Stop)
+    #     self.pwm(self.pinMotorBBackwards, self.DutyCycle)
 
-    def command_callback(self, msg):
-        command = msg.data.lower()
-        self.get_logger().info(f'Received command: {command}')
-        self.enable()
+    # def command_callback(self, msg):
+    #     command = msg.data.lower()
+    #     self.get_logger().info(f'Received command: {command}')
+    #     self.enable()
 
-        if command == 'forwards':
-            self.forwards()
-        elif command == 'backwards':
-            self.backwards()
-        elif command == 'left':
-            self.left()
-        elif command == 'right':
-            self.right()
-        elif command == 'stop':
-            self.stop_motors()
-        else:
-            self.get_logger().warn('Unknown command, stopping motors')
-            self.stop_motors()
+    #     if command == 'forwards':
+    #         self.forwards()
+    #     elif command == 'backwards':
+    #         self.backwards()
+    #     elif command == 'left':
+    #         self.left()
+    #     elif command == 'right':
+    #         self.right()
+    #     elif command == 'stop':
+    #         self.stop_motors()
+    #     else:
+    #         self.get_logger().warn('Unknown command, stopping motors')
+    #         self.stop_motors()
 
     def destroy(self):
         self.stop_motors()
