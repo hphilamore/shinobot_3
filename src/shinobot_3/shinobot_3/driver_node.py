@@ -10,7 +10,12 @@ class MotorDriver(Node):
     def __init__(self):
         super().__init__('driver')
 
-        self.gpio_handle = lgpio.gpiochip_open(0)  # Open default GPIO chip
+        try:
+            self.gpio_handle = lgpio.gpiochip_open(0)
+        except lgpio.error as e:
+            print(f"Failed to open gpiochip: {e}")
+
+        # self.gpio_handle = lgpio.gpiochip_open(0)  # Open default GPIO chip
 
         # Motor pin definitions (BCM)
         self.pinMotorAForwards = 6
@@ -31,8 +36,10 @@ class MotorDriver(Node):
             self.pinMotorBBackwards,
         ]
 
+        self.all_pins = self.motor_pins + [self.EnableA, self.EnableB]
+
         # Set all pins as outputs
-        for pin in self.motor_pins + [self.EnableA, self.EnableB]:
+        for pin in self.all_pins:
             # lgpio.set_mode(self.gpio_handle, pin, lgpio.OUTPUT)
             # lgpio.gpio_claim_output(self.gpio_handle, 
             #     self.motor_pins + [self.EnableA, self.EnableB])
@@ -43,7 +50,7 @@ class MotorDriver(Node):
 
 
         # Start with all motors stopped
-        # self.stop_motors()
+        self.stop_motors()
 
         # ROS2 subscription
         self.subscription = self.create_subscription(
@@ -115,6 +122,11 @@ class MotorDriver(Node):
 
     def destroy(self):
         self.stop_motors()
+        for pin in self.all_pins::
+            try:
+                lgpio.gpio_free(self.gpio_handle, pin)
+            except lgpio.error:
+                pass
         lgpio.gpiochip_close(self.gpio_handle)
         super().destroy_node()
 
