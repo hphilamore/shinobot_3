@@ -122,7 +122,7 @@ class MotorDriver(Node):
 
     def destroy(self):
         self.stop_motors()
-        for pin in self.all_pins::
+        for pin in self.all_pins:
             try:
                 lgpio.gpio_free(self.gpio_handle, pin)
             except lgpio.error:
