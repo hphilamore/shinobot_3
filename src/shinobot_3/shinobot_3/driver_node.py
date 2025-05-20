@@ -28,14 +28,17 @@ class MotorDriver(Node):
             self.pinMotorAForwards,
             self.pinMotorABackwards,
             self.pinMotorBForwards,
-            self.pinMotorBBackwards
+            self.pinMotorBBackwards,
         ]
 
         # Set all pins as outputs
-        # for pin in self.motor_pins + [self.EnableA, self.EnableB]:
+        for pin in self.motor_pins + [self.EnableA, self.EnableB]:
         #     lgpio.set_mode(self.gpio_handle, pin, lgpio.OUTPUT)
-        lgpio.gpio_claim_output(self.gpio_handle, 
-            self.motor_pins + [self.EnableA, self.EnableB])
+            # lgpio.gpio_claim_output(self.gpio_handle, 
+            #     self.motor_pins + [self.EnableA, self.EnableB])
+
+        # Claim the pin for output with initial low value
+            lgpio.gpio_claim_output(chip, 0, pin, 0)
 
         # Start with all motors stopped
         self.stop_motors()
@@ -55,7 +58,7 @@ class MotorDriver(Node):
     def pwm(self, pin, duty_cycle):
         # TODO: Remove this function and use just the following line in subseqent functions
         lgpio.tx_pwm(self.gpio_handle, pin, self.Frequency, duty_cycle)
-        
+
         # if duty_cycle > 0:
         #     lgpio.tx_pwm(self.gpio_handle, pin, self.Frequency, duty_cycle)
         # else:
