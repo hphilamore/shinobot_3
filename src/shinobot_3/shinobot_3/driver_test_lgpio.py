@@ -14,10 +14,12 @@ except lgpio.error as e:
 lgpio.gpio_claim_output(gpio_handle, 0, 6, 0)
 lgpio.gpio_claim_output(gpio_handle, 0, 13, 0)
 
-lgpio.gpio_write(gpio_handle, 6, 1)
+lgpio.gpio_write(gpio_handle, 13, 1)
+print("Pin 13 driven high")
 
 try:
     lgpio.tx_pwm(gpio_handle, 6, 20, 30.0)
+    print("Pin 6 driven at 30\% duty cycle")
 except lgpio.error as e:
     print(f"PWM failed: {e}")
 
