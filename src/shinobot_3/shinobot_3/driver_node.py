@@ -38,8 +38,9 @@ class MotorDriver(Node):
             #     self.motor_pins + [self.EnableA, self.EnableB])
 
             # Claim the pin for output with initial low value
-            # lgpio.gpio_claim_output(self.gpio_handle, 0, pin, 0)
-            lgpio.gpio_claim_output(self.gpio_handle, pin)
+            lgpio.gpio_claim_output(self.gpio_handle, 0, pin, 0)
+            # lgpio.gpio_claim_output(self.gpio_handle, pin)
+
 
         # Start with all motors stopped
         # self.stop_motors()
