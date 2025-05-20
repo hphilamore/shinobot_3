@@ -46,7 +46,7 @@ except KeyboardInterrupt:
 
 finally:
     # Stop PWM
-    lgpio.tx_pwm(gpio_handle, gpio_pin, 0, 0.0)
+    lgpio.tx_pwm(gpio_handle, 6, 0, 0.0)
     # Close the GPIO chip handle
     lgpio.gpiochip_close(gpio_handle)
     print("PWM stopped and GPIO handle closed.")
