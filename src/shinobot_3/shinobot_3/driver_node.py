@@ -44,13 +44,13 @@ class MotorDriver(Node):
         # Start with all motors stopped
         # self.stop_motors()
 
-        # # ROS2 subscription
-        # self.subscription = self.create_subscription(
-        #     String,
-        #     'command',
-        #     self.command_callback,
-        #     10
-        # )
+        # ROS2 subscription
+        self.subscription = self.create_subscription(
+            String,
+            'command',
+            self.command_callback,
+            10
+        )
 
     def enable(self, state=1):
         lgpio.gpio_write(self.gpio_handle, self.EnableA, state)
@@ -93,9 +93,9 @@ class MotorDriver(Node):
     #     self.pwm(self.pinMotorBForwards, self.Stop)
     #     self.pwm(self.pinMotorBBackwards, self.DutyCycle)
 
-    # def command_callback(self, msg):
-    #     command = msg.data.lower()
-    #     self.get_logger().info(f'Received command: {command}')
+    def command_callback(self, msg):
+        command = msg.data.lower()
+        self.get_logger().info(f'Received command: {command}')
     #     self.enable()
 
     #     if command == 'forwards':
