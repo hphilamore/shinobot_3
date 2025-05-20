@@ -42,6 +42,8 @@ class MotorDriver(Node):
         self.pwmMotorBForwards.start(self.Stop)
         self.pwmMotorBBackwards.start(self.Stop)
 
+        print('Pin setup complete')
+
         # Subscribe to 'command' topic
         self.subscription = self.create_subscription(
             String,
