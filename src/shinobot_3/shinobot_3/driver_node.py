@@ -32,8 +32,10 @@ class MotorDriver(Node):
         ]
 
         # Set all pins as outputs
-        for pin in self.motor_pins + [self.EnableA, self.EnableB]:
-            lgpio.set_mode(self.gpio_handle, pin, lgpio.OUTPUT)
+        # for pin in self.motor_pins + [self.EnableA, self.EnableB]:
+        #     lgpio.set_mode(self.gpio_handle, pin, lgpio.OUTPUT)
+        lgpio.gpio_claim_output(self.gpio_handle, 
+            self.motor_pins + [self.EnableA, self.EnableB])
 
         # Start with all motors stopped
         self.stop_motors()
@@ -47,14 +49,17 @@ class MotorDriver(Node):
         )
 
     def enable(self, state=1):
-        lgpio.write(self.gpio_handle, self.EnableA, state)
-        lgpio.write(self.gpio_handle, self.EnableB, state)
+        lgpio.gpio_write(self.gpio_handle, self.EnableA, state)
+        lgpio.gpio_write(self.gpio_handle, self.EnableB, state)
 
     def pwm(self, pin, duty_cycle):
-        if duty_cycle > 0:
-            lgpio.tx_pwm(self.gpio_handle, pin, self.Frequency, duty_cycle)
-        else:
-            lgpio.tx_pwm(self.gpio_handle, pin, self.Frequency, 0)
+        # TODO: Remove this function and use just the following line in subseqent functions
+        lgpio.tx_pwm(self.gpio_handle, pin, self.Frequency, duty_cycle)
+        
+        # if duty_cycle > 0:
+        #     lgpio.tx_pwm(self.gpio_handle, pin, self.Frequency, duty_cycle)
+        # else:
+        #     lgpio.tx_pwm(self.gpio_handle, pin, self.Frequency, 0)
 
     def stop_motors(self):
         for pin in self.motor_pins:
