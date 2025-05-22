@@ -54,7 +54,7 @@ class MotorDriver(Node):
 
     def enable(self, state):
         """ 
-        When state is 0, enable pin is driven high, PWM output
+        When state is 1, enable pin is driven high, PWM output
         """
         GPIO.output(self.EnableA, state)
         GPIO.output(self.EnableB, state)
@@ -93,7 +93,7 @@ class MotorDriver(Node):
         command = msg.data.lower()
         self.get_logger().info(f'Received command: {command}')
 
-        self.enable()
+        self.enable(1)
 
         if command == 'forwards':
             self.forwards()
