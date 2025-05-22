@@ -31,6 +31,8 @@ class MotorDriver(Node):
         GPIO.setup(self.pinMotorABackwards, GPIO.OUT)
         GPIO.setup(self.pinMotorBForwards, GPIO.OUT)
         GPIO.setup(self.pinMotorBBackwards, GPIO.OUT)
+        GPIO.setup(self.EnableA, GPIO.OUT)
+        GPIO.setup(self.EnableB, GPIO.OUT)
 
         self.pwmMotorAForwards = GPIO.PWM(self.pinMotorAForwards, self.Frequency)
         self.pwmMotorABackwards = GPIO.PWM(self.pinMotorABackwards, self.Frequency)
