@@ -15,34 +15,36 @@ class MotorDriver(Node):
         GPIO.setwarnings(False)
 
         # Define motor pins
-        self.pinMotorAForwards = 6
-        self.pinMotorABackwards = 13
-        self.pinMotorBForwards = 21
-        self.pinMotorBBackwards = 20
-        self.EnableA = 12
-        self.EnableB = 26
+        self.m1 = 20
+        self.m2 = 21
+        self.enable_1_2 = 26
+        self.m3 = 6
+        self.m4 = 13
+        self.enable_3_4 = 12
+        
+        self.frequency = 20
+        self.duty_cycle = 30
+        self.zero = 0
 
-        self.Frequency = 20
-        self.DutyCycle = 30
-        self.Stop = 0
+        # Setup pins as outputs
+        GPIO.setup(self.m1, GPIO.OUT)
+        GPIO.setup(self.m2, GPIO.OUT)
+        GPIO.setup(self.m3, GPIO.OUT)
+        GPIO.setup(self.m4, GPIO.OUT)
+        GPIO.setup(self.enable_3_4, GPIO.OUT)
+        GPIO.setup(self.enable_1_2, GPIO.OUT)
 
-        # Setup pins
-        GPIO.setup(self.pinMotorAForwards, GPIO.OUT)
-        GPIO.setup(self.pinMotorABackwards, GPIO.OUT)
-        GPIO.setup(self.pinMotorBForwards, GPIO.OUT)
-        GPIO.setup(self.pinMotorBBackwards, GPIO.OUT)
-        GPIO.setup(self.EnableA, GPIO.OUT)
-        GPIO.setup(self.EnableB, GPIO.OUT)
+        # Setup pwm pins
+        self.pwm_m1 = GPIO.PWM(self.m1, self.frequency)
+        self.pwm_m2 = GPIO.PWM(self.m2, self.frequency)
+        self.pwm_m3 = GPIO.PWM(self.m3, self.frequency)
+        self.pwm_m4 = GPIO.PWM(self.m4, self.frequency)
 
-        self.pwmMotorAForwards = GPIO.PWM(self.pinMotorAForwards, self.Frequency)
-        self.pwmMotorABackwards = GPIO.PWM(self.pinMotorABackwards, self.Frequency)
-        self.pwmMotorBForwards = GPIO.PWM(self.pinMotorBForwards, self.Frequency)
-        self.pwmMotorBBackwards = GPIO.PWM(self.pinMotorBBackwards, self.Frequency)
-
-        self.pwmMotorAForwards.start(self.Stop)
-        self.pwmMotorABackwards.start(self.Stop)
-        self.pwmMotorBForwards.start(self.Stop)
-        self.pwmMotorBBackwards.start(self.Stop)
+        # Set all pwm outputs low 
+        self.pwm_m1.start(self.zero)
+        self.pwm_m2.start(self.zero)
+        self.pwm_m3.start(self.zero)
+        self.pwm_m4.start(self.zero)
 
         print('Pin setup complete')
 
@@ -58,38 +60,38 @@ class MotorDriver(Node):
         """ 
         When state is 1, enable pin is driven high, PWM output
         """
-        GPIO.output(self.EnableA, state)
-        GPIO.output(self.EnableB, state)
+        GPIO.output(self.enable_3_4, state)
+        GPIO.output(self.enable_1_2, state)
 
     def stop_motors(self):
-        self.pwmMotorAForwards.ChangeDutyCycle(self.Stop)
-        self.pwmMotorABackwards.ChangeDutyCycle(self.Stop)
-        self.pwmMotorBForwards.ChangeDutyCycle(self.Stop)
-        self.pwmMotorBBackwards.ChangeDutyCycle(self.Stop)
+        self.pwm_m3.ChangeDutyCycle(self.zero)
+        self.pwm_m4.ChangeDutyCycle(self.zero)
+        self.pwm_m2.ChangeDutyCycle(self.zero)
+        self.pwm_m1.ChangeDutyCycle(self.zero)
 
     def forwards(self):
-        self.pwmMotorAForwards.ChangeDutyCycle(self.DutyCycle)
-        self.pwmMotorABackwards.ChangeDutyCycle(self.Stop)
-        self.pwmMotorBForwards.ChangeDutyCycle(self.DutyCycle)
-        self.pwmMotorBBackwards.ChangeDutyCycle(self.Stop)
+        self.pwm_m3.ChangeDutyCycle(self.duty_cycle)
+        self.pwm_m4.ChangeDutyCycle(self.zero)
+        self.pwm_m2.ChangeDutyCycle(self.duty_cycle)
+        self.pwm_m1.ChangeDutyCycle(self.zero)
 
     def backwards(self):
-        self.pwmMotorAForwards.ChangeDutyCycle(self.Stop)
-        self.pwmMotorABackwards.ChangeDutyCycle(self.DutyCycle)
-        self.pwmMotorBForwards.ChangeDutyCycle(self.Stop)
-        self.pwmMotorBBackwards.ChangeDutyCycle(self.DutyCycle)
+        self.pwm_m3.ChangeDutyCycle(self.zero)
+        self.pwm_m4.ChangeDutyCycle(self.duty_cycle)
+        self.pwm_m2.ChangeDutyCycle(self.zero)
+        self.pwm_m1.ChangeDutyCycle(self.duty_cycle)
 
     def left(self):
-        self.pwmMotorAForwards.ChangeDutyCycle(self.Stop)
-        self.pwmMotorABackwards.ChangeDutyCycle(self.DutyCycle)
-        self.pwmMotorBForwards.ChangeDutyCycle(self.DutyCycle)
-        self.pwmMotorBBackwards.ChangeDutyCycle(self.Stop)
+        self.pwm_m3.ChangeDutyCycle(self.zero)
+        self.pwm_m4.ChangeDutyCycle(self.duty_cycle)
+        self.pwm_m2.ChangeDutyCycle(self.duty_cycle)
+        self.pwm_m1.ChangeDutyCycle(self.zero)
 
     def right(self):
-        self.pwmMotorAForwards.ChangeDutyCycle(self.DutyCycle)
-        self.pwmMotorABackwards.ChangeDutyCycle(self.Stop)
-        self.pwmMotorBForwards.ChangeDutyCycle(self.Stop)
-        self.pwmMotorBBackwards.ChangeDutyCycle(self.DutyCycle)
+        self.pwm_m3.ChangeDutyCycle(self.duty_cycle)
+        self.pwm_m4.ChangeDutyCycle(self.zero)
+        self.pwm_m2.ChangeDutyCycle(self.zero)
+        self.pwm_m1.ChangeDutyCycle(self.duty_cycle)
 
     def command_callback(self, msg):
         command = msg.data.lower()
@@ -106,15 +108,11 @@ class MotorDriver(Node):
         elif command == 'right':
             self.right()
         elif command == 'stop':
-            self.stop_motors()
+            self.zero_motors()
         else:
             self.get_logger().warn('Unknown command, stopping motors')
-            self.stop_motors()
+            self.zero_motors()
 
-    # def destroy(self):
-    #     self.stop_motors()
-    #     GPIO.cleanup()
-    #     super().destroy_node()
 
 def main(args=None):
     rclpy.init(args=args)
@@ -125,8 +123,6 @@ def main(args=None):
     except KeyboardInterrupt:
         pass
     finally:
-        # node.get_logger().info('Shutting down, cleaning up GPIO...')
         node.stop_motors()         # Stop motors explicitly
         GPIO.cleanup()             # Clean up GPIO state
         node.destroy_node()        # Cleanly destroy ROS2 node
-        # rclpy.shutdown()           # Shutdown rclpy (only once)
