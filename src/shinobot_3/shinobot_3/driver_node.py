@@ -111,10 +111,10 @@ class MotorDriver(Node):
             self.get_logger().warn('Unknown command, stopping motors')
             self.stop_motors()
 
-    def destroy(self):
-        self.stop_motors()
-        GPIO.cleanup()
-        super().destroy_node()
+    # def destroy(self):
+    #     self.stop_motors()
+    #     GPIO.cleanup()
+    #     super().destroy_node()
 
 def main(args=None):
     rclpy.init(args=args)
@@ -126,5 +126,7 @@ def main(args=None):
         pass
     finally:
         node.get_logger().info('Shutting down, cleaning up GPIO...')
-        node.destroy()
-        rclpy.shutdown()
+        node.stop_motors()         # Stop motors explicitly
+        GPIO.cleanup()             # Clean up GPIO state
+        node.destroy_node()        # Cleanly destroy ROS2 node
+        rclpy.shutdown()           # Shutdown rclpy (only once)
