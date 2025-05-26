@@ -108,10 +108,10 @@ class MotorDriver(Node):
         elif command == 'right':
             self.right()
         elif command == 'stop':
-            self.zero_motors()
+            self.stop_motors()
         else:
             self.get_logger().warn('Unknown command, stopping motors')
-            self.zero_motors()
+            self.stop_motors()
 
 
 def main(args=None):
