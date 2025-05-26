@@ -125,8 +125,8 @@ def main(args=None):
     except KeyboardInterrupt:
         pass
     finally:
-        node.get_logger().info('Shutting down, cleaning up GPIO...')
+        # node.get_logger().info('Shutting down, cleaning up GPIO...')
         node.stop_motors()         # Stop motors explicitly
         GPIO.cleanup()             # Clean up GPIO state
         node.destroy_node()        # Cleanly destroy ROS2 node
-        rclpy.shutdown()           # Shutdown rclpy (only once)
+        # rclpy.shutdown()           # Shutdown rclpy (only once)
