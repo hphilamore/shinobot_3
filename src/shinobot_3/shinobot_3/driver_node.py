@@ -58,7 +58,7 @@ class MotorDriver(Node):
 
     def enable(self, state):
         """ 
-        When state is 1, enable pin is driven high, PWM output
+        When state is 1, enable pin is driven high, enabling PWM output
         """
         GPIO.output(self.enable_3_4, state)
         GPIO.output(self.enable_1_2, state)
