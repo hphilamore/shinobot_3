@@ -17,8 +17,8 @@ class MotorDriver(Node):
         # Define motor pins
         self.pinMotorAForwards = 6
         self.pinMotorABackwards = 13
-        self.pinMotorBForwards = 20
-        self.pinMotorBBackwards = 21
+        self.pinMotorBForwards = 21
+        self.pinMotorBBackwards = 20
         self.EnableA = 12
         self.EnableB = 26
 
