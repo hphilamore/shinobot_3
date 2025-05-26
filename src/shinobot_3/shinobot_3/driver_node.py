@@ -22,6 +22,7 @@ class MotorDriver(Node):
         self.m4 = 13
         self.enable_3_4 = 12
         
+        # Define pwm parameters
         self.frequency = 20
         self.duty_cycle = 30
         self.zero = 0
