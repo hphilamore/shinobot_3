@@ -20,7 +20,7 @@ import math
 
 
 # Eキーを押すと終了します。
-plt.connect('key_press_event', lambda event: exit(1) if event.key == 'e' else None)
+# plt.connect('key_press_event', lambda event: exit(1) if event.key == 'e' else None)
 
 # ser = serial.Serial(port='/dev/ttyUSB0',
 #                     baudrate=230400,
@@ -33,6 +33,8 @@ ser = serial.Serial(port='/dev/ttyAMA0',
                     baudrate=230400, 
                     timeout=0.5)
 
+print('Serial channel open')
+
 tmpString = ""
 lines = list()
 angles = list()
@@ -42,6 +44,9 @@ i = 0
 while True:
     loopFlag = True
     flag2c = False
+
+    print('angles: ', angles)
+    print('distances: ', distances)
 
     if(i % 40 == 39):
         # if('line' in locals()):
