@@ -1,3 +1,5 @@
+# Adapted from : https://github.com/takamatsu-shyo/LIDAR_LD06_python_loder
+
 import serial
 import binascii
 from CalcLidarData import CalcLidarData
@@ -45,20 +47,34 @@ while True:
     loopFlag = True
     flag2c = False
 
-    print('angles: ', angles)
-    print('distances: ', distances)
+    # print('angles: ', angles)
+    # print('distances: ', distances)
 
-    if(i % 40 == 39):
-        # if('line' in locals()):
-        #     line.remove()
-        # line = ax.scatter(angles, distances, c="cyan", s=5)
+    # if(i % 40 == 39):
+    #     # if('line' in locals()):
+    #     #     line.remove()
+    #     # line = ax.scatter(angles, distances, c="cyan", s=5)
 
-        # ax.set_theta_offset(math.pi / 2)
-        # plt.pause(0.01)
-        angles.clear()
-        distances.clear()
-        i = 0
-        
+    #     # ax.set_theta_offset(math.pi / 2)
+    #     # plt.pause(0.01)
+    #     angles.clear()
+    #     distances.clear()
+    #     i = 0
+
+    if len(angles) >= 1080:  # LD06 gives ~3-5 points per degree; 1080 = 360 x 3
+        # Sort by angle
+        angle_distance_pairs = sorted(zip(angles, distances), key=lambda x: x[0])
+        angles, distances = zip(*angle_distance_pairs)
+
+        # [Optional] Do something with the full 360° data here
+        print("Collected full 360° data")
+        print("Angles:", angles)
+        print("Distances:", distances)
+
+        # Reset for next cycle
+        angles = []
+        distances = []
+
 
     while loopFlag:
         b = ser.read()
@@ -79,6 +95,9 @@ while True:
                 continue
 
             lidarData = CalcLidarData(tmpString[0:-5])
+
+
+
             angles.extend(lidarData.Angle_i)
             distances.extend(lidarData.Distance_i)
                 
