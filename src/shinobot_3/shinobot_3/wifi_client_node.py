@@ -6,7 +6,7 @@ from std_msgs.msg import Float32MultiArray
 
 
 class WiFiClient(Node):
-    
+
     def __init__(self):
         super().__init__('wifi_client')
 
@@ -25,9 +25,15 @@ class WiFiClient(Node):
         angles = data[:num_points]
         distances = data[num_points:]
 
-        self.get_logger().info('Received full 360° LiDAR data:')
-        self.get_logger().info(f'Angles (first 5): {angles[:5]}')
-        self.get_logger().info(f'Distances (first 5): {distances[:5]}')
+        print("Angles:", angles)
+        print("Distances:", distances)
+        print(angles[:5])
+        print(distances[5:])
+        print()
+
+        # self.get_logger().info('Received full 360° LiDAR data:')
+        # self.get_logger().info(f'Angles (first 5): {angles[:5]}')
+        # self.get_logger().info(f'Distances (first 5): {distances[:5]}')
         
 
 def main(args=None):
@@ -40,11 +46,12 @@ def main(args=None):
         pass
     finally:
         node.destroy_node()        # Cleanly destroy ROS2 node
+        rclpy.shutdown()
 
 
-    rclpy.init(args=args)
-    node = WiFiClient()
-    rclpy.spin(node)
-    node.ser.close()
-    node.destroy_node()
-    rclpy.shutdown()
+    # rclpy.init(args=args)
+    # node = WiFiClient()
+    # rclpy.spin(node)
+    # node.ser.close()
+    # node.destroy_node()
+    # rclpy.shutdown()

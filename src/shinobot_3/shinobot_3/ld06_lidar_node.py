@@ -83,13 +83,25 @@ class LD06Publisher(Node):
             print(f"Angle: {angles[i]:.2f}°, Distance: {distances[i]:.2f} m")
 
 
+# def main(args=None):
+#     rclpy.init(args=args)
+#     node = LD06Publisher()
+#     rclpy.spin(node)
+#     node.ser.close()
+#     node.destroy_node()
+#     rclpy.shutdown()
+
 def main(args=None):
     rclpy.init(args=args)
     node = LD06Publisher()
-    rclpy.spin(node)
-    node.ser.close()
-    node.destroy_node()
-    rclpy.shutdown()
+    try:
+        rclpy.spin(node)
+    except KeyboardInterrupt:
+        pass
+    finally:
+        node.ser.close()
+        node.destroy_node()        # Cleanly destroy ROS2 node
+        rclpy.shutdown()
 
 if __name__ == '__main__':
     main()
