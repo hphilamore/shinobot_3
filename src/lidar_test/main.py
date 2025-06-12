@@ -65,6 +65,7 @@ while True:
         # Sort by angle
         angle_distance_pairs = sorted(zip(angles, distances), key=lambda x: x[0])
         angles, distances = zip(*angle_distance_pairs)
+        angles = [round(a, 3) for a in angles]
 
         # [Optional] Do something with the full 360° data here
         print("Collected full 360° data")
@@ -98,11 +99,9 @@ while True:
 
 
 
-            # angles.extend(lidarData.Angle_i)
-            # distances.extend(lidarData.Distance_i)
+            angles.extend(lidarData.Angle_i)
+            distances.extend(lidarData.Distance_i)
 
-            angles.extend(round(lidarData.Angle_i, 3))
-            distances.extend(round(lidarData.Distance_i, 3))
                 
             tmpString = ""
             loopFlag = False
