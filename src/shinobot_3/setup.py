@@ -22,6 +22,7 @@ setup(
         'console_scripts': [
            'simple_node = shinobot_3.simple_node:main',
            'driver_node = shinobot_3.driver_node:main',
+           'ld06_lidar_node = shinobot_3.ld06_lidar_node:main',
         ],
     },
 )

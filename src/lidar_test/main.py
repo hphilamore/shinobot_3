@@ -69,12 +69,13 @@ while True:
 
         # [Optional] Do something with the full 360° data here
         print("Collected full 360° data")
-        # print("Angles:", angles)
-        # print("Distances:", distances)
+        print("Angles:", angles)
+        print("Distances:", distances)
 
-        indices = [0, 269, 539, 809]
-        print("Angles:", [angles[i] for i in indices])
-        print("Distances:", [distances[i] for i in indices])
+        # Data at selected angles only 
+        # indices = [0, 269, 539, 809]
+        # print("Angles:", [angles[i] for i in indices])
+        # print("Distances:", [distances[i] for i in indices])
 
         # Reset for next cycle
         angles = []
