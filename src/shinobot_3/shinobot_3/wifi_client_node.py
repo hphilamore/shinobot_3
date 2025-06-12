@@ -25,15 +25,16 @@ class WiFiClient(Node):
         angles = data[:num_points]
         distances = data[num_points:]
 
-        print("Angles:", angles)
-        print("Distances:", distances)
-        print(angles[:5])
-        print(distances[5:])
-        print()
+        # print("Angles:", angles)
+        # print("Distances:", distances)
+        # print(angles[:5])
+        # print(distances[5:])
+        # print()
 
         # self.get_logger().info('Received full 360° LiDAR data:')
         # self.get_logger().info(f'Angles (first 5): {angles[:5]}')
         # self.get_logger().info(f'Distances (first 5): {distances[:5]}')
+        self.get_logger().info(f'{data})
         
 
 def main(args=None):
