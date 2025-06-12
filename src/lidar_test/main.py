@@ -98,8 +98,11 @@ while True:
 
 
 
-            angles.extend(lidarData.Angle_i)
-            distances.extend(lidarData.Distance_i)
+            # angles.extend(lidarData.Angle_i)
+            # distances.extend(lidarData.Distance_i)
+
+            angles.extend(round(lidarData.Angle_i, 3))
+            distances.extend(round(lidarData.Distance_i, 3)
                 
             tmpString = ""
             loopFlag = False
