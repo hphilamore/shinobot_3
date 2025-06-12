@@ -74,7 +74,7 @@ while True:
 
         indices = [0, 269, 539, 809]
         print("Angles:", [angles[i] for i in indices])
-        print("Distances:", distances)
+        print("Distances:", [distances[i] for i in indices])
 
         # Reset for next cycle
         angles = []
