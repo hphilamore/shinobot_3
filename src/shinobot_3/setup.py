@@ -23,6 +23,7 @@ setup(
            'simple_node = shinobot_3.simple_node:main',
            'driver_node = shinobot_3.driver_node:main',
            'ld06_lidar_node = shinobot_3.ld06_lidar_node:main',
+           'wifi_client_node = shinobot_3.wifi_client_node:main'
         ],
     },
 )
