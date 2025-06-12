@@ -2,7 +2,7 @@ import rclpy
 from rclpy.node import Node
 from std_msgs.msg import Float32MultiArray
 import serial
-from CalcLidarData import CalcLidarData  # Ensure this is in your PYTHONPATH
+from shinobot.CalcLidarData import CalcLidarData  # Ensure this is in your PYTHONPATH
 
 class LD06Publisher(Node):
     def __init__(self):

@@ -7,7 +7,7 @@ sudo apt-get install python-rpi.gpio
 Install python developer tools:
 sudo apt-get install python-dev
 
-GPIO only accessible by root on Ubuntu, so run driver node as root:
+GPIO and hardware serial only accessible by root on Ubuntu, so run driver node as root:
 # Starts an interactive root shell
 sudo -i 
 # Adds ros2 command line tools to your path
