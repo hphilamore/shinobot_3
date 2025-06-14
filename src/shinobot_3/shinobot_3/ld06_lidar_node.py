@@ -32,13 +32,10 @@ class LD06Publisher(Node):
             pairs = sorted(zip(self.angles, self.distances), key=lambda x: x[0])
             angles, distances = zip(*pairs)
 
-            angles = [round(a, 3) for a in angles]
-            distances = [round(d, 3) for d in distances]
-
             # Print to command line (like your original code)
             print("Collected full 360° data")
-            print("Angles:", angles)
-            print("Distances:", distances)
+            print("Angles:", [round(a, 3) for a in angles][:10])
+            print("Distances:", [round(d, 3) for d in distances][:10])
             # pretty_print_lidar_data(self, angles, distances)
 
             msg = Float32MultiArray()

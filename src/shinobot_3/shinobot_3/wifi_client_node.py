@@ -37,7 +37,8 @@ class WiFiClient(Node):
         # self.get_logger().info(data)
         # self.get_logger().info(len(data))
 
-        print('Data', data)
+        print(angles[:10])
+        print(distances[:10])
         print(len(data))
         print(type(data))
         
