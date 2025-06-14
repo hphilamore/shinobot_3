@@ -34,8 +34,12 @@ class WiFiClient(Node):
         # self.get_logger().info('Received full 360° LiDAR data:')
         # self.get_logger().info(f'Angles (first 5): {angles[:5]}')
         # self.get_logger().info(f'Distances (first 5): {distances[:5]}')
-        self.get_logger().info(f'{data}')
-        self.get_logger().info(f'{len(data)}')
+        # self.get_logger().info(data)
+        # self.get_logger().info(len(data))
+
+        print('Data', data)
+        print(len(data))
+        print(type(data))
         
 
 def main(args=None):
