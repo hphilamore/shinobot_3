@@ -67,12 +67,8 @@ class WiFiClient(Node):
         """
 
         # Convert to json format (keys enclosed in double quotes)
-        self.data = json.dumps(self.data)
+        self.data = json.dumps(list(self.data))
 
-        # self.data = str(self.data)
-
-        # # Convert to string to send to robot
-        # return str(command) 
 
     def send_command_to_server(self):
         """
