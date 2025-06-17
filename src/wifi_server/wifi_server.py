@@ -36,7 +36,14 @@ while True:
                 msg = f.readline().strip() # remove newline
                 msg = json.loads(msg)
 
-            print('msg', type(msg), msg)
+            num_points = len(msg) // 2
+
+            angles = msg[:num_points]
+            distances = msg[num_points:]
+
+            print(angles[:10])
+            print(distances[:10])
+            print()
 
 
     except socket.timeout:

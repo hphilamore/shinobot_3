@@ -51,7 +51,7 @@ class WiFiClient(Node):
     def format_for_transmission(self):
 
         """
-        Formats data frame contianig node coordinates to send to robot
+        Formats data frame as json string
         """
 
         # Convert to json format (keys enclosed in double quotes)
@@ -60,14 +60,14 @@ class WiFiClient(Node):
 
     def send_command_to_server(self):
         """
-        Uses sockets to send command to server robot over local network
+        Uses sockets to send command to server over local network
         """
         # Send command to server socket on raspberry pi
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             s.connect((self.host, self.port))
+            
+            # Send message with newline delimiter to ensure message received correctly
             # s.sendall(self.data.encode())
-
-            # Send message with newline delimiter
             s.sendall((self.data + '\n').encode()) 
         
 
