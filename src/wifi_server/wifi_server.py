@@ -24,12 +24,20 @@ while True:
         conn, addr = server_socket.accept()
         with conn:
             print(f"Connected by {addr}")
-            data = conn.recv(16384)  # increased buffer size
-            if not data:
-                continue  # don't break the server loop
-            msg = data.decode()
-            msg = json.loads(msg)
+            # data = conn.recv(16384)  # increased buffer size
+            # if not data:
+            #     continue  # don't break the server loop
+            # msg = data.decode()
+            # msg = json.loads(msg)
+            
+
+            # Wrap the socket in a file-like object to read full lines
+            with conn.makefile('r') as f:
+                msg = f.readline().strip() # remove newline
+                msg = json.loads(msg)
+
             print('msg', type(msg), msg)
+
 
     except socket.timeout:
         print('no connection from client')

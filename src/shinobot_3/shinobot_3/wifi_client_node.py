@@ -65,7 +65,10 @@ class WiFiClient(Node):
         # Send command to server socket on raspberry pi
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             s.connect((self.host, self.port))
-            s.sendall(self.data.encode())
+            # s.sendall(self.data.encode())
+
+            # Send message with newline delimiter
+            s.sendall((self.data + '\n').encode()) 
         
 
 def main(args=None):
