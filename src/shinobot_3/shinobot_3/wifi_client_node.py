@@ -4,6 +4,7 @@ import rclpy
 from rclpy.node import Node
 from std_msgs.msg import Float32MultiArray
 import socket
+import json
 
 
 class WiFiClient(Node):
@@ -16,17 +17,17 @@ class WiFiClient(Node):
             Float32MultiArray,
             'lidar/scan_data',
             self.listener_callback,
-            10
+            10)
 
         # The hostname or IP address of the server to communicate with
-        self.host = 192.168.4.28
+        self.host = '192.168.4.28'
 
         # The port used by the server
         self.port = 65448
 
         # Variable to store data for transmission  
         self.data = None
-        )
+
 
     def listener_callback(self, msg):
         self.data = msg.data
@@ -68,7 +69,7 @@ class WiFiClient(Node):
         # Convert to json format (keys enclosed in double quotes)
         self.data = json.dumps(self.data)
 
-        self.data = str(self.data)
+        # self.data = str(self.data)
 
         # # Convert to string to send to robot
         # return str(command) 
