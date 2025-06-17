@@ -20,7 +20,7 @@ class WiFiClient(Node):
             10)
 
         # The hostname or IP address of the server to communicate with
-        self.host = '192.168.4.28'
+        self.host = '192.168.4.24'
 
         # The port used by the server
         self.port = 65448
@@ -36,18 +36,6 @@ class WiFiClient(Node):
         angles = self.data[:num_points]
         distances = self.data[num_points:]
 
-        # print("Angles:", angles)
-        # print("Distances:", distances)
-        # print(angles[:5])
-        # print(distances[5:])
-        # print()
-
-        # self.get_logger().info('Received full 360° LiDAR data:')
-        # self.get_logger().info(f'Angles (first 5): {angles[:5]}')
-        # self.get_logger().info(f'Distances (first 5): {distances[:5]}')
-        # self.get_logger().info(data)
-        # self.get_logger().info(len(data))
-
         print(angles[:10])
         print(distances[:10])
         print(len(self.data))
@@ -57,8 +45,8 @@ class WiFiClient(Node):
 
         try:
             self.send_command_to_server()
-        except:
-            print('No connection to server')
+        except Exception as e:
+            print(f'No connection to server: {e}')
 
     def format_for_transmission(self):
 
