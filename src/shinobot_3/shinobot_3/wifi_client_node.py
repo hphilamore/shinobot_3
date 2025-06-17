@@ -3,6 +3,7 @@
 import rclpy
 from rclpy.node import Node
 from std_msgs.msg import Float32MultiArray
+import socket
 
 
 class WiFiClient(Node):
@@ -16,14 +17,23 @@ class WiFiClient(Node):
             'lidar/scan_data',
             self.listener_callback,
             10
+
+        # The hostname or IP address of the server to communicate with
+        self.host = 192.168.4.28
+
+        # The port used by the server
+        self.port = 65448
+
+        # Variable to store data for transmission  
+        self.data = None
         )
 
     def listener_callback(self, msg):
-        data = msg.data
-        num_points = len(data) // 2
+        self.data = msg.data
+        num_points = len(self.data) // 2
 
-        angles = data[:num_points]
-        distances = data[num_points:]
+        angles = self.data[:num_points]
+        distances = self.data[num_points:]
 
         # print("Angles:", angles)
         # print("Distances:", distances)
@@ -39,8 +49,38 @@ class WiFiClient(Node):
 
         print(angles[:10])
         print(distances[:10])
-        print(len(data))
-        print(type(data))
+        print(len(self.data))
+        print(type(self.data))
+
+        self.format_for_transmission()
+
+        try:
+            self.send_command_to_server()
+        except:
+            print('No connection to server')
+
+    def format_for_transmission(self):
+
+        """
+        Formats data frame contianig node coordinates to send to robot
+        """
+
+        # Convert to json format (keys enclosed in double quotes)
+        self.data = json.dumps(self.data)
+
+        self.data = str(self.data)
+
+        # # Convert to string to send to robot
+        # return str(command) 
+
+    def send_command_to_server(self):
+        """
+        Uses sockets to send command to server robot over local network
+        """
+        # Send command to server socket on raspberry pi
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+            s.connect((self.host, self.port))
+            s.sendall(self.data.encode())
         
 
 def main(args=None):
