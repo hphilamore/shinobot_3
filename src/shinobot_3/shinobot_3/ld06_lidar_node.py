@@ -10,7 +10,9 @@ from shinobot_3.CalcLidarData import CalcLidarData  # Ensure this is in your PYT
 class LD06Publisher(Node):
     def __init__(self):
         super().__init__('ld06')
-        self.publisher_ = self.create_publisher(Float32MultiArray, 'lidar/scan_data', 10)
+        self.publisher_ = self.create_publisher(Float32MultiArray, 
+            'lidar/scan_data', 
+            10)
 
         # Serial port settings
         self.ser = serial.Serial(

@@ -20,7 +20,7 @@ class WiFiClient(Node):
             10)
 
         # The hostname or IP address of the server to communicate with
-        self.host = '192.168.4.24'
+        self.host = 'D3RVQHJQYP.local'
 
         # The port used by the server
         self.port = 65448

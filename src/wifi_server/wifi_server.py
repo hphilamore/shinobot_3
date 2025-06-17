@@ -24,6 +24,7 @@ while True:
         conn, addr = server_socket.accept()
         with conn:
             print(f"Connected by {addr}")
+
             # data = conn.recv(16384)  # increased buffer size
             # if not data:
             #     continue  # don't break the server loop
@@ -33,7 +34,9 @@ while True:
 
             # Wrap the socket in a file-like object to read full lines
             with conn.makefile('r') as f:
-                msg = f.readline().strip() # remove newline
+
+                # Remove newline delimiter
+                msg = f.readline().strip() 
                 msg = json.loads(msg)
 
             num_points = len(msg) // 2
